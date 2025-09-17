@@ -17,14 +17,14 @@ Worktree Manager is a Python-based tool that helps you create, manage, and switc
 
 ## Installation & Setup
 
-1. **Clone the repository** to your preferred location (e.g., `~/Sources/command-line-utils/`):
+1. **Clone the repository** to your preferred location (e.g., `~/Sources/`):
    ```bash
-   git clone https://github.com/mathd/worktree-manager.git ~/Sources/command-line-utils/worktree-manager
+   git clone https://github.com/mathd/worktree-manager.git ~/Sources/worktree-manager
    ```
 
 2. **Make the scripts executable:**
    ```bash
-   cd ~/Sources/command-line-utils/worktree-manager
+   cd ~/Sources/worktree-manager
    chmod +x worktree-manager.py wt
    ```
 
@@ -42,7 +42,7 @@ Worktree Manager is a Python-based tool that helps you create, manage, and switc
 
 4. **Create an alias** for easy access. Add this to your shell configuration:
    ```bash
-   alias wt='source "$HOME/Sources/command-line-utils/worktree-manager/wt"'
+   alias wt='source "$HOME/Sources/worktree-manager/wt"'
    ```
 
    **Note**: Replace the path with the actual location where you cloned the repository. Using `source` is crucial for the directory changing functionality to work properly.
@@ -130,10 +130,9 @@ With the example configuration (`W_PROJECTS_DIR="$HOME/Sources"` and `W_WORKTREE
 ├── my-repo/                    # Main repository
 │   ├── .git/
 │   └── ...
-└── command-line-utils/
-    └── worktree-manager/
-        ├── worktree-manager.py
-        └── wt
+└── worktree-manager/
+    ├── worktree-manager.py
+    └── wt
 
 ~/Sources-Worktree/
 └── my-repo/                   # Worktrees for my-repo
