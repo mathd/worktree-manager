@@ -1,0 +1,34 @@
+#!/bin/bash
+# Worktree Manager Shell Wrapper
+# This wrapper allows the Python script to change the shell's working directory
+
+# Try to find the Python script
+if command -v worktree-manager.py >/dev/null 2>&1; then
+    # Found in PATH - get the full path
+    PYTHON_SCRIPT="$(command -v worktree-manager.py)"
+elif [[ -f "$(dirname "$0")/worktree-manager.py" ]]; then
+    # Found relative to this script
+    PYTHON_SCRIPT="$(dirname "$0")/worktree-manager.py"
+else
+    echo "Error: Could not find worktree-manager.py" >&2
+    return 1 2>/dev/null || exit 1
+fi
+
+# Run the Python script and capture output
+result=$(python3 "$PYTHON_SCRIPT" "$@")
+exit_code=$?
+
+# If successful and result is a valid directory path, cd to it
+if [[ $exit_code -eq 0 && -d "$result" ]]; then
+    cd "$result"
+elif [[ -n "$result" ]]; then
+    # Print any other output (like list commands, errors)
+    echo "$result"
+fi
+
+# Use return instead of exit when sourced to avoid closing the shell
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+    return $exit_code
+else
+    exit $exit_code
+fi
