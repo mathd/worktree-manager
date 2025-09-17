@@ -6,12 +6,25 @@
 if command -v worktree-manager.py >/dev/null 2>&1; then
     # Found in PATH - get the full path
     PYTHON_SCRIPT="$(command -v worktree-manager.py)"
-elif [[ -f "$(dirname "$0")/worktree-manager.py" ]]; then
-    # Found relative to this script
-    PYTHON_SCRIPT="$(dirname "$0")/worktree-manager.py"
 else
-    echo "Error: Could not find worktree-manager.py" >&2
-    return 1 2>/dev/null || exit 1
+    # Determine script directory - handle both sourced and executed cases
+    if [[ -n "${BASH_SOURCE[0]}" ]]; then
+        # Script is being sourced
+        SCRIPT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+    else
+        # Script is being executed directly
+        SCRIPT_DIR="$(dirname "$0")"
+    fi
+
+    # Convert to absolute path to handle relative paths properly
+    SCRIPT_DIR="$(cd "$SCRIPT_DIR" && pwd)"
+
+    if [[ -f "$SCRIPT_DIR/worktree-manager.py" ]]; then
+        PYTHON_SCRIPT="$SCRIPT_DIR/worktree-manager.py"
+    else
+        echo "Error: Could not find worktree-manager.py in $SCRIPT_DIR" >&2
+        return 1 2>/dev/null || exit 1
+    fi
 fi
 
 # Run the Python script and capture output
