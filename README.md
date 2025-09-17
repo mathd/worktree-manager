@@ -1,6 +1,6 @@
 # Worktree Manager
 
-A Git worktree management tool that makes working with multiple branches easy and organized.
+A Git worktree management tool that makes working with multiple branches easy and organized. Compatible with Linux, macOS, and Windows (WSL2).
 
 ## Overview
 
@@ -146,7 +146,7 @@ With the example configuration (`W_PROJECTS_DIR="$HOME/Sources"` and `W_WORKTREE
 
 - Python 3.6+
 - Git
-- Unix-like environment (Linux, macOS, WSL)
+- Unix-like environment (Linux, macOS, WSL2)
 
 ## How It Works
 
