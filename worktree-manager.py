@@ -22,7 +22,7 @@ SUPPORT_LEGACY = bool(os.environ.get('W_SUPPORT_LEGACY_CORE_WTS', ''))
 def run_git(cmd: List[str], cwd: Optional[Path] = None, capture_output: bool = True, check: bool = True):
     """Run a git command with error handling."""
     try:
-        return subprocess.run(['git'] + cmd, cwd=cwd, capture_output=capture_output, text=True, check=check)
+        return subprocess.run(['git'] + cmd, cwd=cwd, capture_output=capture_output, text=True, check=check, encoding='utf-8', errors='replace')
     except subprocess.CalledProcessError as e:
         if check:
             print(f"Git error: {e.stderr.strip()}", file=sys.stderr)
@@ -175,7 +175,7 @@ def cmd_create_or_switch(worktree: str, command: Optional[List[str]] = None):
         old_cwd = Path.cwd()
         try:
             os.chdir(wt_path)
-            return subprocess.run(command, shell=len(command) == 1).returncode
+            return subprocess.run(command, shell=len(command) == 1, encoding='utf-8', errors='replace').returncode
         finally:
             os.chdir(old_cwd)
     else:
