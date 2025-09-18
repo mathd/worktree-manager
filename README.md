@@ -1,6 +1,6 @@
 # Worktree Manager
 
-A Git worktree management tool that makes working with multiple branches easy and organized. Compatible with Linux, macOS, and Windows (WSL2).
+A Git worktree management tool that makes working with multiple branches easy and organized. Compatible with Linux, macOS, Windows (PowerShell), and Windows (WSL2).
 
 ## Overview
 
@@ -16,6 +16,8 @@ Worktree Manager is a Python-based tool that helps you create, manage, and switc
 - **Multiple repository support**: Manage worktrees across different Git repositories
 
 ## Installation & Setup
+
+### Linux / macOS / WSL2
 
 1. **Clone the repository** to your preferred location (e.g., `~/Sources/`):
    ```bash
@@ -56,6 +58,54 @@ Worktree Manager is a Python-based tool that helps you create, manage, and switc
    ```bash
    wt --where  # Should show your configured paths
    ```
+
+### Windows (PowerShell)
+
+1. **Clone the repository** to your preferred location (e.g., `C:\Sources\`):
+   ```powershell
+   git clone https://github.com/mathd/worktree-manager.git C:\Sources\worktree-manager
+   ```
+
+2. **Configure environment variables** in your PowerShell profile. First, check if you have a profile:
+   ```powershell
+   Test-Path $PROFILE
+   ```
+
+   If it returns `False`, create one:
+   ```powershell
+   New-Item -ItemType File -Path $PROFILE -Force
+   ```
+
+3. **Edit your PowerShell profile** and add:
+   ```powershell
+   # Set your projects directory
+   $env:W_PROJECTS_DIR = "C:\Sources"
+
+   # Set your worktrees directory
+   $env:W_WORKTREES_DIR = "C:\Sources-Worktree"
+
+   # Optional: Set a default branch prefix
+   $env:W_DEFAULT_BRANCH_PREFIX = "feature"
+
+   # Create the wt function
+   function wt {
+       . "C:\Sources\worktree-manager\wt.ps1" @args
+   }
+   ```
+
+   **Note**: Replace `C:\Sources\worktree-manager` with the actual path where you cloned the repository.
+
+4. **Reload your PowerShell profile:**
+   ```powershell
+   . $PROFILE
+   ```
+
+5. **Verify installation:**
+   ```powershell
+   wt --where  # Should show your configured paths
+   ```
+
+**Important for Windows**: The `wt` function must be sourced (using the dot `.`) for directory changes to persist in your PowerShell session. The function above handles this automatically.
 
 ## Usage
 
@@ -145,7 +195,7 @@ With the example configuration (`W_PROJECTS_DIR="$HOME/Sources"` and `W_WORKTREE
 
 - Python 3.6+
 - Git
-- Unix-like environment (Linux, macOS, WSL2)
+- Unix-like environment (Linux, macOS, WSL2) or Windows PowerShell
 
 ## How It Works
 
