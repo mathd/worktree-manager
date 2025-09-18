@@ -8,7 +8,11 @@ if (-not (Test-Path $pythonScript)) {
 
 # Run the Python script and capture output
 $arguments = @($pythonScript) + $args
-$process = Start-Process -FilePath "python" -ArgumentList $arguments -NoNewWindow -Wait -PassThru -RedirectStandardOutput "stdout.tmp" -RedirectStandardError "stderr.tmp"
+if ($arguments.Count -gt 1) {
+    $process = Start-Process -FilePath "python" -ArgumentList $arguments -NoNewWindow -Wait -PassThru -RedirectStandardOutput "stdout.tmp" -RedirectStandardError "stderr.tmp"
+} else {
+    $process = Start-Process -FilePath "python" -ArgumentList @($pythonScript) -NoNewWindow -Wait -PassThru -RedirectStandardOutput "stdout.tmp" -RedirectStandardError "stderr.tmp"
+}
 
 # Show stderr output (status messages)
 if (Test-Path "stderr.tmp") {
